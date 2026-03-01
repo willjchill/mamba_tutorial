@@ -1,0 +1,7 @@
+numpy
+ipykernel
+pandas
+torch
+matplotlib
+transformers
+datasets
