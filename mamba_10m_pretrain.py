@@ -15,7 +15,7 @@ class Config10M:
     N = 16         # SSM state dimension
     kernel_size = 4
     n_layers = 12   # Number of blocks
-    vocab_size = 50254 # EleutherAI/gpt-neox-20b vocab size
+    vocab_size = 50277 # EleutherAI/gpt-neox-20b vocab size
 
 class SSMBlock(nn.Module):
     def __init__(self, config):
@@ -144,7 +144,7 @@ def main():
     optimizer = optim.AdamW(model.parameters(), lr=1e-3)
     criterion = nn.CrossEntropyLoss()
     
-    epochs = 1
+    epochs = 50
     model.train()
     for epoch in range(epochs):
         for i, batch in enumerate(loader):
