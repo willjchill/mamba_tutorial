@@ -34,7 +34,8 @@ class SimpleMambaWrapper(LM):
         
     def loglikelihood(self, requests):
         res = []
-        for context, continuation in requests:
+        for req in requests:
+            context, continuation = req.args
             ctx_enc = self.tok_encode(context)
             cont_enc = self.tok_encode(continuation)
             
@@ -57,7 +58,8 @@ class SimpleMambaWrapper(LM):
         
     def loglikelihood_rolling(self, requests):
         res = []
-        for string in requests:
+        for req in requests:
+            string = req.args[0] if isinstance(req.args, tuple) else req.args
             enc = self.tok_encode(string)
             inp = torch.tensor([enc[:-1]], dtype=torch.long).to(self.device)
             target = torch.tensor([enc[1:]], dtype=torch.long).to(self.device)
@@ -73,7 +75,8 @@ class SimpleMambaWrapper(LM):
         
     def generate_until(self, requests):
         res = []
-        for context, gen_kwargs in requests:
+        for req in requests:
+            context, gen_kwargs = req.args
             max_new = gen_kwargs.get("max_gen_toks", 50)
             
             inp = torch.tensor([self.tok_encode(context)], dtype=torch.long).to(self.device)
